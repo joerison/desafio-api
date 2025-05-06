@@ -9,11 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class IntegranteDTO {
+public class FranquiaDTO {
 
     private Long id;
-
-    private String nome;
-    private FuncaoDTO funcao;
+    private String descricao;
 
 }

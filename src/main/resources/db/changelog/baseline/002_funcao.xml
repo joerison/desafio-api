@@ -10,7 +10,17 @@
                    http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
-    <includeAll path="baseline" relativeToChangelogFile="true"/>
-    <includeAll path="data" relativeToChangelogFile="true"/>
+    <changeSet id="002_funcao" author="joerison">
+        <createTable tableName="funcao">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="descricao" type="VARCHAR(255)"/>
+            <column name="franquia_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_funcao_franquia" references="franquia(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
 
 </databaseChangeLog>
+

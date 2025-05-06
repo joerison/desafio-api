@@ -15,11 +15,11 @@ public class ComposicaoTime {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_time", nullable = false)
+    @JoinColumn(name = "time_id", nullable = false)
     private Time time;
 
     @ManyToOne
-    @JoinColumn(name = "id_integrante", nullable = false)
+    @JoinColumn(name = "integrante_id", nullable = false)
     private Integrante integrante;
 
 }

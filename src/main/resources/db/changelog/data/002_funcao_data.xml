@@ -1,0 +1,33 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/pro
+                   http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="002_funcao_data" author="joerison">
+        <!-- Futebol -->
+        <insert tableName="funcao"><column name="id" value="1"/><column name="franquia_id" value="1"/><column name="descricao" value="Goleiro"/></insert>
+        <insert tableName="funcao"><column name="id" value="4"/><column name="franquia_id" value="1"/><column name="descricao" value="Atacante"/></insert>
+
+        <!-- Basquete -->
+        <insert tableName="funcao"><column name="id" value="6"/><column name="franquia_id" value="2"/><column name="descricao" value="Armador"/></insert>
+        <insert tableName="funcao"><column name="id" value="7"/><column name="franquia_id" value="2"/><column name="descricao" value="Pivô"/></insert>
+
+        <!-- Counter Strike -->
+        <insert tableName="funcao"><column name="id" value="8"/><column name="franquia_id" value="3"/><column name="descricao" value="Sniper"/></insert>
+        <insert tableName="funcao"><column name="id" value="10"/><column name="franquia_id" value="3"/><column name="descricao" value="Support"/></insert>
+
+        <!-- Valorant -->
+        <insert tableName="funcao"><column name="id" value="13"/><column name="franquia_id" value="4"/><column name="descricao" value="Controlador"/></insert>
+        <insert tableName="funcao"><column name="id" value="15"/><column name="franquia_id" value="4"/><column name="descricao" value="Sentinela"/></insert>
+    </changeSet>
+
+
+</databaseChangeLog>
+

@@ -11,6 +11,8 @@ import com.joerison.duxusdesafio.repository.TimeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class TimeService {
 
@@ -25,8 +27,19 @@ public class TimeService {
 
         Time time = TimeMapper.INSTANCE.toEntity(timeDTO);
 
-        Time timaeSlvo = timeRepository.save(time);
+        validarData(timeDTO.getData());
 
-        return TimeMapper.INSTANCE.toDto(timaeSlvo);
+        Time timaeSalvo = timeRepository.save(time);
+
+        return TimeMapper.INSTANCE.toDto(timaeSalvo);
     }
+
+    private void validarData(LocalDate data){
+        Time timeExistente = timeRepository.findByData(data);
+
+        if (timeExistente != null){
+            throw new RuntimeException("Já consta um cadastro de Time para essa data!");
+        }
+    }
+
 }
