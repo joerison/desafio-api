@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  duxusdesafio-api-db-postgres:
+    container_name: duxusdesafio-api-db-postgres
+    image: postgres:13
+    environment:
+      POSTGRES_DB: public
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - duxusdesafio-api-db-postgres-volume:/var/lib/postgresql/data
+
+volumes:
+  duxusdesafio-api-db-postgres-volume:
+    external: false
+
