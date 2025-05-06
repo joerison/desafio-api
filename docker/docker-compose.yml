@@ -5,7 +5,7 @@ services:
     container_name: duxusdesafio-api-db-postgres
     image: postgres:13
     environment:
-      POSTGRES_DB: public
+      POSTGRES_DB: duxusdesafio
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
