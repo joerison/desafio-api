@@ -1,9 +1,15 @@
 package com.joerison.duxusdesafio.controller;
 
+import com.joerison.duxusdesafio.dto.FranquiaDTO;
+import com.joerison.duxusdesafio.dto.FuncaoDTO;
 import com.joerison.duxusdesafio.dto.IntegranteDTO;
 import com.joerison.duxusdesafio.dto.TimeDTO;
+import com.joerison.duxusdesafio.mapper.FranquiaMapper;
+import com.joerison.duxusdesafio.mapper.FuncaoMapper;
 import com.joerison.duxusdesafio.mapper.IntegranteMapper;
 import com.joerison.duxusdesafio.mapper.TimeMapper;
+import com.joerison.duxusdesafio.model.Franquia;
+import com.joerison.duxusdesafio.model.Funcao;
 import com.joerison.duxusdesafio.model.Integrante;
 import com.joerison.duxusdesafio.model.Time;
 import com.joerison.duxusdesafio.service.ApiService;
@@ -44,17 +50,30 @@ public class ApiResource {
     }
 
     @GetMapping("time-mais-comum")
-    public ResponseEntity<?> TimeMaisComum()
+    public ResponseEntity<?> TimeMaisComum(@RequestParam (required = false) LocalDate dataInicio,
+                                           @RequestParam (required = false) LocalDate dataFim)
     {
-//        apiService.franquiaMaisFamosa();
-        return ResponseEntity.ok().build();
+        Time time = apiService.integrantesDoTimeMaisComum(dataInicio, dataFim);
+        TimeDTO timeDTO = TimeMapper.INSTANCE.toDto(time);
+        return ResponseEntity.ok(timeDTO);
     }
 
     @GetMapping("funcao-mais-comum")
-    public ResponseEntity<?> FuncaoMaisComum()
+    public ResponseEntity<?> FuncaoMaisComum(@RequestParam (required = false) LocalDate dataInicio,
+                                             @RequestParam (required = false) LocalDate dataFim)
     {
-//        apiService.funcaoMaisComum();
-        return ResponseEntity.ok().build();
+        Funcao funcao = apiService.funcaoMaisComum(dataInicio, dataFim);
+        FuncaoDTO funcaoDTO = FuncaoMapper.INSTANCE.toDto(funcao);
+        return ResponseEntity.ok(funcaoDTO);
+    }
+
+    @GetMapping("franquia-mais-famosa")
+    public ResponseEntity<?> FranquiaMaisFamosa(@RequestParam (required = false) LocalDate dataInicio,
+                                                @RequestParam (required = false) LocalDate dataFim)
+    {
+        Franquia franquia = apiService.franquiaMaisFamosa(dataInicio, dataFim);
+        FranquiaDTO franquiaDTO = FranquiaMapper.INSTANCE.toDto(franquia);
+        return ResponseEntity.ok(franquiaDTO);
     }
 
     @GetMapping("contagem-por-franquia")
