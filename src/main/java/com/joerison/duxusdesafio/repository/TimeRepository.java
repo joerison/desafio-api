@@ -9,4 +9,5 @@ public interface TimeRepository extends JpaRepository<Time, Long> {
 
     Time findByData(LocalDate data);
 
+
 }

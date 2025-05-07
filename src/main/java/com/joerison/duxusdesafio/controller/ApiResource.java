@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -52,17 +53,19 @@ public class ApiResource {
     }
 
     @GetMapping("contagem-por-franquia")
-    public ResponseEntity<?> ContagemPorFranquia()
+    public ResponseEntity<?> ContagemPorFranquia(@RequestParam (required = false) LocalDate dataInicio,
+                                                 @RequestParam (required = false) LocalDate dataFim)
     {
-//        apiService.contagemPorFranquia();
-        return ResponseEntity.ok().build();
+        Map<String, Long> contagemPorFranquia = apiService.contagemPorFranquia(dataInicio, dataFim);
+        return ResponseEntity.ok(contagemPorFranquia);
     }
 
     @GetMapping("contagem-por-funcao")
-    public ResponseEntity<?> ContagemPorFuncao()
+    public ResponseEntity<?> ContagemPorFuncao(@RequestParam (required = false) LocalDate dataInicio,
+                                               @RequestParam (required = false) LocalDate dataFim)
     {
-//        apiService.contagemPorFuncao();
-        return ResponseEntity.ok().build();
+        Map<String, Long> contagemPorFuncao = apiService.contagemPorFuncao(dataInicio, dataFim);
+        return ResponseEntity.ok(contagemPorFuncao);
     }
 
 }
