@@ -1,7 +1,10 @@
 package com.joerison.duxusdesafio.controller;
 
+import com.joerison.duxusdesafio.dto.IntegranteDTO;
 import com.joerison.duxusdesafio.dto.TimeDTO;
+import com.joerison.duxusdesafio.mapper.IntegranteMapper;
 import com.joerison.duxusdesafio.mapper.TimeMapper;
+import com.joerison.duxusdesafio.model.Integrante;
 import com.joerison.duxusdesafio.model.Time;
 import com.joerison.duxusdesafio.service.ApiService;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +35,12 @@ public class ApiResource {
     }
 
     @GetMapping("integrante-mais-usado")
-    public ResponseEntity<?> IntegranteMaisUsado()
+    public ResponseEntity<?> IntegranteMaisUsado(@RequestParam (required = false) LocalDate dataInicio,
+                                                 @RequestParam (required = false) LocalDate dataFim)
     {
-//        apiService.integranteMaisUsado();
-        return ResponseEntity.ok().build();
+        Integrante integrante = apiService.integranteMaisUsado(dataInicio, dataFim);
+        IntegranteDTO integranteDTO = IntegranteMapper.INSTANCE.toDto(integrante);
+        return ResponseEntity.ok(integranteDTO);
     }
 
     @GetMapping("time-mais-comum")

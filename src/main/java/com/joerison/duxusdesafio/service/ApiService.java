@@ -3,6 +3,7 @@ package com.joerison.duxusdesafio.service;
 
 import com.joerison.duxusdesafio.model.Integrante;
 import com.joerison.duxusdesafio.model.Time;
+import com.joerison.duxusdesafio.repository.IntegranteRepository;
 import com.joerison.duxusdesafio.repository.TimeRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,12 @@ import java.util.*;
 public class ApiService {
 
     private final TimeRepository timeRepository;
+    private final IntegranteRepository integranteRepository;
 
-    public ApiService(TimeRepository timeRepository) {
+    public ApiService(TimeRepository timeRepository,
+                      IntegranteRepository integranteRepository) {
         this.timeRepository = timeRepository;
+        this.integranteRepository = integranteRepository;
     }
 
     /**
@@ -37,9 +41,61 @@ public class ApiService {
      * Vai retornar o integrante que estiver presente na maior quantidade de times
      * dentro do período
      */
-    public Integrante integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+    public Integrante integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal) {
+        // 1) busca todos os times do repositório
+        List<Time> todosOsTimes = timeRepository.findAll();
+
+        // 2) define limites abertos caso dataInicial/dataFinal sejam null
+        LocalDate inicio = (dataInicial != null ? dataInicial : LocalDate.MIN);
+        LocalDate fim = (dataFinal   != null ? dataFinal   : LocalDate.MAX);
+
+        // 3) mapa para contar quantas vezes cada integrante apareceu
+        Map<Long, Long> contagemPorIntegrante = new HashMap<>();
+
+        // 4) percorre cada time, filtrando pelo intervalo de datas
+        for (Time time : todosOsTimes) {
+            LocalDate dataDoTime = time.getData();
+            if (dataDoTime.isBefore(inicio) || dataDoTime.isAfter(fim)) {
+                continue; // ignora times fora do período
+            }
+
+            // 5) garante que cada integrante conte apenas uma vez por time
+            Set<Long> integrantesContadosNoMesmoTime = new HashSet<>();
+            for (Integrante integrante : time.getIntegrantes()) {
+                Long idIntegrante = integrante.getId();
+                // se já contamos esse integrante neste time, pula
+                if (!integrantesContadosNoMesmoTime.add(idIntegrante)) {
+                    continue;
+                }
+                // incrementa a contagem no mapa
+                Long quantidadeAtual = contagemPorIntegrante.get(idIntegrante);
+                if (quantidadeAtual == null) {
+                    contagemPorIntegrante.put(idIntegrante, 1L);
+                } else {
+                    contagemPorIntegrante.put(idIntegrante, quantidadeAtual + 1);
+                }
+            }
+        }
+
+        // 6) se não houve nenhum integrante, retorna null
+        if (contagemPorIntegrante.isEmpty()) {
+            return null;
+        }
+
+        // 7) encontra o ID do integrante com maior contagem
+        Long idMaisUsado = null;
+        Long contadorMaximo = 0L;
+        for (Map.Entry<Long, Long> entrada : contagemPorIntegrante.entrySet()) {
+            Long idAtual = entrada.getKey();
+            Long contagemAtual = entrada.getValue();
+            if (idMaisUsado == null || contagemAtual > contadorMaximo) {
+                idMaisUsado = idAtual;
+                contadorMaximo = contagemAtual;
+            }
+        }
+
+        // 8) recupera e retorna o próprio objeto Integrante
+        return integranteRepository.findById(idMaisUsado).orElse(null);
     }
 
     /**
