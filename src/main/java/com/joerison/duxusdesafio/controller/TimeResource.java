@@ -1,12 +1,15 @@
 package com.joerison.duxusdesafio.controller;
 
 import com.joerison.duxusdesafio.dto.TimeDTO;
+import com.joerison.duxusdesafio.mapper.TimeMapper;
+import com.joerison.duxusdesafio.model.Time;
 import com.joerison.duxusdesafio.service.TimeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/time")
@@ -37,7 +40,9 @@ public class TimeResource {
     @GetMapping
     public ResponseEntity<?> listarTodos()
     {
-       return ResponseEntity.ok().build();
+        List<Time> lista = this.timeService.listar();
+        List<TimeDTO> listaDTO = TimeMapper.INSTANCE.toDto(lista);
+        return ResponseEntity.ok(listaDTO);
     }
 
 }

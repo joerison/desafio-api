@@ -5,7 +5,10 @@ import com.joerison.duxusdesafio.mapper.IntegranteMapper;
 import com.joerison.duxusdesafio.model.Integrante;
 import com.joerison.duxusdesafio.repository.IntegranteRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class IntegranteService {
@@ -24,5 +27,9 @@ public class IntegranteService {
         Integrante integrandeSalvo = integranteRepository.save(integrante);
 
         return IntegranteMapper.INSTANCE.toDto(integrandeSalvo);
+    }
+
+    public List<Integrante> listar(){
+        return this.integranteRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 }

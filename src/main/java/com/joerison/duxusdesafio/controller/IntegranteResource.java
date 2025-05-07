@@ -1,12 +1,15 @@
 package com.joerison.duxusdesafio.controller;
 
 import com.joerison.duxusdesafio.dto.IntegranteDTO;
+import com.joerison.duxusdesafio.mapper.IntegranteMapper;
+import com.joerison.duxusdesafio.model.Integrante;
 import com.joerison.duxusdesafio.service.IntegranteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/integrante")
@@ -37,7 +40,11 @@ public class IntegranteResource {
     @GetMapping
     public ResponseEntity<?> listarTodos()
     {
-       return ResponseEntity.ok().build();
+
+        List<Integrante> lista = this.integranteService.listar();
+        List<IntegranteDTO> listaDTO = IntegranteMapper.INSTANCE.toDto(lista);
+
+        return ResponseEntity.ok(listaDTO);
     }
 
 }
